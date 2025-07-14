@@ -1,0 +1,52 @@
+body {
+  display: flex;
+  /* justify-content: center; */
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+}
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+}
+.workTimer,
+.relaxTimer {
+  /* display: flex;
+  justify-content: center;
+  align-items: center; */
+  width: 40%;
+  font-size: 50px;
+}
+.countdown {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 50px;
+}
+.btnContainer {
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  align-items: center;
+
+  width: 100%;
+  max-width: 250px;
+}
+button {
+  cursor: pointer;
+  font-size: large;
+}
+.main {
+  margin-bottom: 20px;
+  width: 50%;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  border: 1px solid pink;
+}
+.resetBtn {
+  width: 25%;
+  height: 100%;
+}
