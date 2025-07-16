@@ -16,11 +16,33 @@ function switchEnterSection(nodeList, index, number) {
   highlightText(whereTo)
 }
 
-//quickly select the counting number
+//quickly select the displayed counting number
 function selectContainer(containerIndex) {
   const displayMin = document.querySelector(`#c${containerIndex + 1} .min`)
   const displaySec = document.querySelector(`#c${containerIndex + 1} .sec`)
   return [displayMin, displaySec]
+}
+
+//quickly change the innerHTML of a selected element
+function btnHTML(eleSelector, text) {
+  document.querySelector(eleSelector).innerHTML = String(text)
+}
+
+//index = of all the selected start/reset buttons; (index + 1) locates the id of the target element(#c1, #c2, #r1, #r2...)
+function reset(index) {
+  if (timerID, flashID) {
+    clearInterval(timerID)
+    clearInterval(flashID)
+  }
+  btnHTML(`#s${index + 1}`, 'START')
+  alarmSound.currentTime = 0
+  alarmSound.pause()
+  const [min, sec] = selectContainer(index)
+  if (index === 0) {
+    [min.innerHTML, sec.innerHTML] = [timerRecord[0], timerRecord[1]]
+  } else {
+    [min.innerHTML, sec.innerHTML] = [timerRecord[2], timerRecord[3]]
+  }
 }
 
 // two timer: default set as 45:00, 15:00. workTimer gets [45, 00, 15, 00]
@@ -87,13 +109,17 @@ workTimer.forEach((timer, index) => {
 const mainBtns = document.querySelectorAll('.main')
 const resetBtns = document.querySelectorAll('.resetBtn')
 let isPause = true
-let timerID
+let timerID, flashID
 
 // when the button is hit, and the timer is not running(isPause=true), get the current display number and start counting down; otherwise reverse the flag and stop the counter
 const alarmSound = new Audio('./lib/ambient-piano-music-1.wav')
 mainBtns.forEach((btn, index) => {
   btn.addEventListener('click', () => {
-    if (isPause) {
+    if (btn.innerHTML === 'STOP') {
+      reset(index, 'START')
+      return
+    }
+    if (btn.innerHTML === 'START') {
       btn.innerHTML = 'PAUSE'
       const displayMin = document.querySelector(`#c${index + 1} .min`)
       const displaySec = document.querySelector(`#c${index + 1} .sec`)
@@ -101,7 +127,6 @@ mainBtns.forEach((btn, index) => {
         displayMin.innerHTML,
         displaySec.innerHTML
       ].map(Number)
-      console.log(selectContainer(index))
       let totalSec = min * 60 + sec
       timerID = setInterval(() => {
         if (totalSec > 0) {
@@ -112,12 +137,16 @@ mainBtns.forEach((btn, index) => {
           displayMin.innerHTML = `${newMin}`
           displaySec.innerHTML = `${newSec}`
         } else {
-          // alert('Time is up!')
           alarmSound.play()
           clearInterval(timerID)
           isPause = true
-          btn.innerHTML = 'START'
-          // flash the timer and the reset button when time is up;
+          btn.innerHTML = 'STOP'
+          // flash the timer when time is up;
+          const toFlash = document.querySelector(`#c${index + 1}`)
+          flashID = setInterval(() => {
+            toFlash.style.opacity = (toFlash.style.opacity === "1") ? "0" : "1"
+          }, 800);
+          // if its the work timer,display "let's take a break"; otherwise display "time to get productive!"
         }
       }, 1000)
     } else {
@@ -131,13 +160,7 @@ mainBtns.forEach((btn, index) => {
 //reset button
 resetBtns.forEach((btn, index) => {
   btn.addEventListener('click', () => {
-    alarmSound.pause()
-    const [min, sec] = selectContainer(index)
-    console.log(timerRecord)
-    if (index === 0) {
-      [min.innerHTML, sec.innerHTML] = [timerRecord[0], timerRecord[1]]
-    } else {
-      [min.innerHTML, sec.innerHTML] = [timerRecord[2], timerRecord[3]]
-    }
+    reset(index)
   })
 })
+

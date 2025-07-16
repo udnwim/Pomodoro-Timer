@@ -14,9 +14,10 @@ body {
 }
 .workTimer,
 .relaxTimer {
-  /* display: flex;
+  display: flex;
+  flex-direction: column;
   justify-content: center;
-  align-items: center; */
+  align-items: center;
   width: 40%;
   font-size: 50px;
 }
@@ -25,11 +26,12 @@ body {
   justify-content: center;
   align-items: center;
   margin-bottom: 50px;
+  transition: none;
 }
 .btnContainer {
   display: flex;
   flex-direction: column;
-  /* justify-content: center; */
+  justify-content: center;
   align-items: center;
 
   width: 100%;
