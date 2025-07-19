@@ -158,31 +158,11 @@ mainBtns.forEach((btn, index) => {
           }, 800);
         }
       }, 1000);
-      //bug: not counting correctly (slower than real time)
-      // timerID = setInterval(() => {
-      //   if (totalSec > 0) {
-      //     isPause = false
-      //     totalSec--
-      //     const newMin = String(Math.floor(totalSec / 60)).padStart(2, '0')
-      //     const newSec = String(totalSec % 60).padStart(2, '0')
-      //     displayMin.innerHTML = `${newMin}`
-      //     displaySec.innerHTML = `${newSec}`
-      //   } else {
-      //     alarmSound.play()
-      //     clearInterval(timerID)
-      //     isPause = true
-      //     btn.innerHTML = 'STOP'
-      //     // flash the timer when time is up;
-      //     const toFlash = document.querySelector(`#c${index + 1}`)
-      //     flashID = setInterval(() => {
-      //       toFlash.style.opacity = (toFlash.style.opacity === "1") ? "0" : "1"
-      //     }, 800);
-      //   }
-      // }, 1000)
       // if its the work timer,display "let's take a break"; otherwise display "time to get productive!"
       // ticking in <title>?
       //bug: two timer can not work separetly (maybe just stack them into one container)
       // add inspiring sentences to this website(API)
+      // add dark/light theme switch button
     } else {
       btn.innerHTML = 'START'
       clearInterval(timerID)
@@ -198,3 +178,29 @@ resetBtns.forEach((btn, index) => {
   })
 })
 
+// day/night mode toggle
+const themeToggle = document.querySelector('.switchWrapper .slider')
+const switchContainer = document.querySelector('.switchWrapper')
+const body = document.body
+let isDarkMode = false
+switchContainer.addEventListener('click', () => {
+  if (isDarkMode) {
+    themeToggle.style.transform = "translateX(0px)"
+    switchContainer.style.backgroundColor = '#170B3B'
+    if (body.classList.contains('dark')) {
+      body.classList.replace('dark', 'light')
+    } else {
+      body.classList.add('light')
+    }
+    isDarkMode = false
+  } else {
+    themeToggle.style.transform = "translateX(20px)"
+    switchContainer.style.backgroundColor = '#9388A2'
+    if (body.classList.contains('light')) {
+      body.classList.replace('light', 'dark')
+    } else {
+      body.classList.add('dark')
+    }
+    isDarkMode = true
+  }
+})
