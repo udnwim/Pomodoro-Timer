@@ -125,6 +125,19 @@ mainBtns.forEach((btn, index) => {
   btn.addEventListener('click', () => {
     if (btn.innerHTML === 'STOP') {
       reset(index, 'START')
+      //when the time is up and the stop button is hit, check which timer is displaying and switch visibility
+      const timerW = document.querySelector('.workTimer')
+      const timerR = document.querySelector('.relaxTimer')
+      const quote = document.querySelector('.quote')
+      const displayW = getComputedStyle(timerW).display
+      if (displayW === 'flex') {
+        timerW.style.display = 'none'
+        timerR.style.display = 'flex'
+      } else {
+        timerW.style.display = 'flex'
+        timerR.style.display = 'none'
+        quote.innerHTML = "Let's take a break!"
+      }
       return
     }
     if (btn.innerHTML === 'START') {
@@ -153,6 +166,7 @@ mainBtns.forEach((btn, index) => {
           clearInterval(timerID)
           isPause = true
           btn.innerHTML = 'STOP'
+          const toFlash = document.querySelector(`#c${index + 1}`)
           flashID = setInterval(() => {
             toFlash.style.opacity = (toFlash.style.opacity === "1") ? "0" : "1" 
           }, 800);
